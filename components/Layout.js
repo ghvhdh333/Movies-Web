@@ -5,7 +5,6 @@ export default function Layout({children}){
         <>
             <NavBar/>
             <div>{ children }</div>
-            
         </>
     )
 }
