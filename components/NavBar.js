@@ -13,8 +13,17 @@ export default function NavBar(){
                 <Link href="/">
                     <span className={router.pathname === "/" ? "active" : ""}>Home</span>
                 </Link>
-                <Link href="/about">
-                    <span className={router.pathname === "/about" ? "active" : ""}>About</span>
+                <Link href="/top-rated">
+                    <span className={router.pathname === "/top-rated" ? "active" : ""}>Top Rated</span>
+                </Link>
+                <Link href="/popular">
+                    <span className={router.pathname === "/popular" ? "active" : ""}>Popular</span>
+                </Link>
+                <Link href="/now-playing">
+                    <span className={router.pathname === "/now-playing" ? "active" : ""}>Now Playing</span>
+                </Link>
+                <Link href="/upcoming">
+                    <span className={router.pathname === "/upcoming" ? "active" : ""}>Upcoming</span>
                 </Link>
             </div>
             <style jsx>{`
@@ -34,7 +43,7 @@ export default function NavBar(){
 
                 nav div {
                     display: flex;
-                    gap: 20px;
+                    gap: 30px;
                 }
 
                 nav span {

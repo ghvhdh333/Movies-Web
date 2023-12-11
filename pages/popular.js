@@ -2,7 +2,7 @@ import Link from "next/link";
 import Seo from "../components/Seo";
 
 // getServerSideProps 함수로 인해 api의 응답받은 results를 받아온다.
-export default function Home({ results }) {
+export default function Popular({ results }) {
   return (
     <div className="container">
       <Seo/>
@@ -56,9 +56,6 @@ export default function Home({ results }) {
   );
 }
 
-// 서버에서 동작한다. (SSR)
-// 서버에서 작업이 다 끝나면 한 번에 화면을 보여주기 때문에, 
-// api 응답이 느린 경우 유저는 흰 화면만 보게된다.
 export async function getServerSideProps(){
   const { results } = await (await fetch(`http://localhost:3000/api/movies/popular`)).json();
   return {
