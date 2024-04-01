@@ -1,12 +1,35 @@
 import Link from "next/link";
 import Seo from "../components/Seo";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-// getServerSideProps 함수로 인해 api의 응답받은 results를 받아온다.
-export default function TopRated({ results }) {
+export default function TopRated() {
+  const [topRatedData, setTopRatedData] = useState([]);
+
+  const getTopRatedData = async () => {
+    try {
+      // 서버 api 호출
+      const response = await axios.get(`/api/movies/top-rated`, {
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
+      });
+      console.log(response.data.results);
+      setTopRatedData(response.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getTopRatedData();
+  }, []);
+
   return (
     <div className="container">
       <Seo />
-      {results?.map((movie) => (
+      {topRatedData?.map((movie) => (
         <Link href={`/info/${movie.id}`} key={movie.id}>
           <div className="movie">
             <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
@@ -56,11 +79,11 @@ export default function TopRated({ results }) {
   );
 }
 
-export async function getServerSideProps() {
-  const { results } = await (await fetch(`/api/movies/top-rated`)).json();
-  return {
-    props: {
-      results,
-    },
-  };
-}
+// export async function getServerSideProps() {
+//   const { results } = await (await fetch(`/api/movies/top-rated`)).json();
+//   return {
+//     props: {
+//       results,
+//     },
+//   };
+// }

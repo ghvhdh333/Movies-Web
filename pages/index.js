@@ -1,12 +1,35 @@
 import Link from "next/link";
 import Seo from "../components/Seo";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-// getServerSideProps 함수로 인해 api의 응답받은 results를 받아온다.
-export default function Home({ results }) {
+export default function Home() {
+  const [homeData, setHomeData] = useState([]);
+
+  const getHomeData = async () => {
+    try {
+      // 서버 api 호출
+      const response = await axios.get(`/api/movies/popular`, {
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
+      });
+      console.log(response.data.results);
+      setHomeData(response.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getHomeData();
+  }, []);
+
   return (
     <div className="container">
       <Seo />
-      {results?.map((movie) => (
+      {homeData?.map((movie) => (
         <Link href={`/info/${movie.id}`} key={movie.id}>
           <div className="movie">
             <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
@@ -56,14 +79,16 @@ export default function Home({ results }) {
   );
 }
 
+// getServerSideProps 함수로 인해 api의 응답받은 results를 받아온다.
+
 // 서버에서 동작한다. (SSR)
 // 서버에서 작업이 다 끝나면 한 번에 화면을 보여주기 때문에,
 // api 응답이 느린 경우 유저는 흰 화면만 보게된다.
-export async function getServerSideProps() {
-  const { results } = await (await fetch(`/api/movies/popular`)).json();
-  return {
-    props: {
-      results,
-    },
-  };
-}
+// export async function getServerSideProps() {
+//   const { results } = await (await fetch(`/api/movies/popular`)).json();
+//   return {
+//     props: {
+//       results,
+//     },
+//   };
+// }

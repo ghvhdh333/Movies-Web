@@ -1,12 +1,35 @@
 import Link from "next/link";
 import Seo from "../components/Seo";
+import axios from "axios";
+import { useState, useEffect } from "react";
 
-// getServerSideProps 함수로 인해 api의 응답받은 results를 받아온다.
-export default function Popular({ results }) {
+export default function Popular() {
+  const [popularData, setPopularData] = useState([]);
+
+  const getPopularData = async () => {
+    try {
+      // 서버 api 호출
+      const response = await axios.get(`/api/movies/popular`, {
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
+      });
+      console.log(response.data.results);
+      setPopularData(response.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getPopularData();
+  }, []);
+
   return (
     <div className="container">
       <Seo />
-      {results?.map((movie) => (
+      {popularData?.map((movie) => (
         <Link href={`/info/${movie.id}`} key={movie.id}>
           <div className="movie">
             <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
@@ -54,13 +77,4 @@ export default function Popular({ results }) {
       `}</style>
     </div>
   );
-}
-
-export async function getServerSideProps() {
-  const { results } = await (await fetch(`/api/movies/popular`)).json();
-  return {
-    props: {
-      results,
-    },
-  };
 }

@@ -1,12 +1,35 @@
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Seo from "../components/Seo";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
-export default function NowPlaying({ results }) {
+export default function NowPlaying() {
+  const [nowPlayingData, setNowPlayingData] = useState([]);
+
+  const getNowPlayingData = async () => {
+    try {
+      // 서버 api 호출
+      const response = await axios.get(`/api/movies/now-playing`, {
+        headers: {
+          "Content-Type": "application/json",
+          "ngrok-skip-browser-warning": "69420",
+        },
+      });
+      console.log(response.data.results);
+      setNowPlayingData(response.data.results);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getNowPlayingData();
+  }, []);
+
   return (
     <div className="container">
       <Seo />
-      {results?.map((movie) => (
+      {nowPlayingData?.map((movie) => (
         <Link href={`/info/${movie.id}`} key={movie.id}>
           <div className="movie">
             <img src={`https://image.tmdb.org/t/p/w500/${movie.poster_path}`} />
@@ -54,13 +77,4 @@ export default function NowPlaying({ results }) {
       `}</style>
     </div>
   );
-}
-
-export async function getServerSideProps() {
-  const { results } = await (await fetch(`/api/movies/now-playing`)).json();
-  return {
-    props: {
-      results,
-    },
-  };
 }
