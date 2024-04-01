@@ -5,7 +5,7 @@ import Seo from "../components/Seo";
 export default function Home({ results }) {
   return (
     <div className="container">
-      <Seo/>
+      <Seo />
       {results?.map((movie) => (
         <Link href={`/info/${movie.id}`} key={movie.id}>
           <div className="movie">
@@ -13,7 +13,7 @@ export default function Home({ results }) {
             <h4>{movie.original_title}</h4>
           </div>
         </Link>
-     ))}
+      ))}
       <style jsx>{`
         .container {
           display: flex;
@@ -46,9 +46,9 @@ export default function Home({ results }) {
         .loading {
           display: flex;
           justify-content: center;
-          align-items:center;
-          margin:0;
-          height:100vh;
+          align-items: center;
+          margin: 0;
+          height: 100vh;
           margin-top: -110px;
         }
       `}</style>
@@ -57,10 +57,10 @@ export default function Home({ results }) {
 }
 
 // 서버에서 동작한다. (SSR)
-// 서버에서 작업이 다 끝나면 한 번에 화면을 보여주기 때문에, 
+// 서버에서 작업이 다 끝나면 한 번에 화면을 보여주기 때문에,
 // api 응답이 느린 경우 유저는 흰 화면만 보게된다.
-export async function getServerSideProps(){
-  const { results } = await (await fetch(`http://localhost:3000/api/movies/popular`)).json();
+export async function getServerSideProps() {
+  const { results } = await (await fetch(`/api/movies/popular`)).json();
   return {
     props: {
       results,

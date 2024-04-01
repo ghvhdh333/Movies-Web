@@ -5,7 +5,7 @@ import Seo from "../components/Seo";
 export default function Upcoming({ results }) {
   return (
     <div className="container">
-      <Seo/>
+      <Seo />
       {results?.map((movie) => (
         <Link href={`/info/${movie.id}`} key={movie.id}>
           <div className="movie">
@@ -13,7 +13,7 @@ export default function Upcoming({ results }) {
             <h4>{movie.original_title}</h4>
           </div>
         </Link>
-     ))}
+      ))}
       <style jsx>{`
         .container {
           display: flex;
@@ -46,9 +46,9 @@ export default function Upcoming({ results }) {
         .loading {
           display: flex;
           justify-content: center;
-          align-items:center;
-          margin:0;
-          height:100vh;
+          align-items: center;
+          margin: 0;
+          height: 100vh;
           margin-top: -110px;
         }
       `}</style>
@@ -56,8 +56,8 @@ export default function Upcoming({ results }) {
   );
 }
 
-export async function getServerSideProps(){
-  const { results } = await (await fetch(`http://localhost:3000/api/movies/upcoming`)).json();
+export async function getServerSideProps() {
+  const { results } = await (await fetch(`/api/movies/upcoming`)).json();
   return {
     props: {
       results,
