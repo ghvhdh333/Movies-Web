@@ -15,7 +15,6 @@ export default function Upcoming() {
           "ngrok-skip-browser-warning": "69420",
         },
       });
-      console.log(response.data.results);
       setUpcomingData(response.data.results);
     } catch (error) {
       console.log(error);

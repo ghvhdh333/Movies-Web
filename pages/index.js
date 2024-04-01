@@ -15,7 +15,6 @@ export default function Home() {
           "ngrok-skip-browser-warning": "69420",
         },
       });
-      console.log(response.data.results);
       setHomeData(response.data.results);
     } catch (error) {
       console.log(error);
@@ -79,7 +78,11 @@ export default function Home() {
   );
 }
 
-// getServerSideProps 함수로 인해 api의 응답받은 results를 받아온다.
+// getServerSideProps 사용 시 참고
+//  함수로 인해 api의 응답받은 results를 컴포넌트의 props로 받아온다.
+// export default function Home({results}) {
+// ...
+// }
 
 // 서버에서 동작한다. (SSR)
 // 서버에서 작업이 다 끝나면 한 번에 화면을 보여주기 때문에,

@@ -15,7 +15,6 @@ export default function TopRated() {
           "ngrok-skip-browser-warning": "69420",
         },
       });
-      console.log(response.data.results);
       setTopRatedData(response.data.results);
     } catch (error) {
       console.log(error);

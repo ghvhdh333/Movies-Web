@@ -15,7 +15,6 @@ export default function NowPlaying() {
           "ngrok-skip-browser-warning": "69420",
         },
       });
-      console.log(response.data.results);
       setNowPlayingData(response.data.results);
     } catch (error) {
       console.log(error);
